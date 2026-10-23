@@ -19,7 +19,6 @@ brew "fdupes"
 cask "1password-cli"
 cask "iterm2"
 cask "emacs-app"
-cask "emacsclient"
 cask "visual-studio-code"
 
 # --- Kubernetes and homelab ---
@@ -37,7 +36,7 @@ brew "docker"
 brew "docker-buildx"
 
 # --- Azure ---
-brew "azure-cli"
+cask "azure-cli"
 
 # --- Languages ---
 brew "python"
