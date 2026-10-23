@@ -47,4 +47,4 @@ brew "typescript"
 # --- AI tooling ---
 cask "claude-code"
 # The binary only: `entire enable` installs the hooks per repository
-brew "entireio/tap/entire"
+cask "entireio/tap/entire", trusted: true

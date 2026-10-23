@@ -9,5 +9,6 @@ case "$(readlink /etc/localtime)" in
     *) sudo systemsetup -settimezone Europe/London ;;
 esac
 
-brew bundle --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+# --no-upgrade: install what's missing, but leave upgrades to `brew upgrade` (some casks need a sudo prompt)
+brew bundle --no-upgrade --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
 {{ end -}}
