@@ -49,6 +49,7 @@ There are two things you can do about this warning:
 (use-package markdown-mode)
 (use-package php-mode)
 (use-package smart-mode-line :init (setq sml/no-confirm-load-theme t sml/theme 'respectful) :config (sml/setup))
+(use-package solarized-theme :if window-system :config (load-theme 'solarized-light t))
 (use-package vlf :config (progn (require 'vlf-setup) (eval-after-load "vlf" '(define-key vlf-prefix-map "\C-xv" vlf-mode-map))))
 (use-package xcscope :config (progn (setq cscope-do-not-update-database t) (setq cscope-display-times nil)))
 (use-package yaml-mode)
