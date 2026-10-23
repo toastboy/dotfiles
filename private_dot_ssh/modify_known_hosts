@@ -1,0 +1,6 @@
+#!/bin/sh
+# Add GitHub's host keys, never removing anything already known.
+# See https://stackoverflow.com/questions/72019842/ansible-known-hosts-module-ssh-key-propagation-question
+existing=$(cat)
+keys=$(ssh-keyscan github.com 2>/dev/null) || { printf '%s\n' "$existing"; exit 0; }
+printf '%s\n%s\n' "$existing" "$keys" | grep -v -e '^$' -e '^#' | awk '!seen[$0]++'

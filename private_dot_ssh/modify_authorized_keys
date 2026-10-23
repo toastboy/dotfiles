@@ -1,0 +1,6 @@
+#!/bin/sh
+# Add my GitHub keys to whatever's already authorised, never removing any.
+# If GitHub can't be reached, leave the file exactly as it was.
+existing=$(cat)
+keys=$(curl -fsSL https://github.com/toastboy70.keys) || { printf '%s\n' "$existing"; exit 0; }
+printf '%s\n%s\n' "$existing" "$keys" | grep -v '^$' | awk '!seen[$1 " " $2]++'

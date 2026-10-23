@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# Re-runs whenever the Brewfile changes: {{ include "Brewfile" | sha256sum }}
+set -euo pipefail
+
+# Only ask for sudo if the timezone is actually wrong
+case "$(readlink /etc/localtime)" in
+    */Europe/London) ;;
+    *) sudo systemsetup -settimezone Europe/London ;;
+esac
+
+brew bundle --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+{{ end -}}

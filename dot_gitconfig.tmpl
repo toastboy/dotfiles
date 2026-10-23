@@ -1,0 +1,23 @@
+[core]
+	editor = emacs
+[credential]
+	usehttppath = true
+[init]
+	defaultBranch = main
+[pull]
+	ff = only
+[user]
+	name = Jon Wilson
+	useconfigonly = true
+# CONDITIONAL (the only one in this file): signing goes through 1Password's
+# op-ssh-sign, whose path is macOS-specific.
+{{- if eq .chezmoi.os "darwin" }}
+	email = github@toastboy.co.uk
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICVEEJ5ZmtOihSjM1gWJxpr4vlhkv9yHNX0CXXEGsY0u
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+	gpgsign = true
+{{- end }}

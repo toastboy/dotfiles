@@ -1,0 +1,8 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+# Re-runs whenever the unit changes: {{ include "dot_config/systemd/user/emacs.service" | sha256sum }}
+# Skipped where there's no systemd (e.g. WSL without it turned on)
+[ -d /run/systemd/system ] || exit 0
+systemctl --user daemon-reload
+systemctl --user enable --now emacs
+{{ end -}}

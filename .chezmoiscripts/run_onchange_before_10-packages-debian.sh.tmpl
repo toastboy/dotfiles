@@ -1,0 +1,39 @@
+{{ if and (eq .chezmoi.os "linux") (lookPath "apt-get") -}}
+#!/bin/bash
+# Bump this to force a re-run: packages v3
+set -euo pipefail
+
+sudo timedatectl set-timezone Europe/London
+
+sudo apt-get update
+sudo apt-get install -y \
+    apt-transport-https ca-certificates coreutils curl dnsutils emacs-nox \
+    fdupes git gnupg gnutls-bin gpg htop isync jq lsb-release net-tools \
+    nmap python3-pip rsync unzip zsh
+
+# HashiCorp: Packer and Terraform, checking the key fingerprint first
+keyring=/usr/share/keyrings/hashicorp-archive-keyring.gpg
+if [ ! -f "$keyring" ]; then
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --output "$keyring"
+fi
+if ! gpg --no-default-keyring --keyring "$keyring" --fingerprint | grep -q "D55C 0D1A C78A 8D81 26CB  631C FC9C A96A CA02 6560"; then
+    echo "HashiCorp key fingerprint mismatch!" >&2
+    exit 1
+fi
+echo "deb [signed-by=$keyring] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+    | sudo tee /etc/apt/sources.list.d/hashicorp.list >/dev/null
+sudo apt-get update
+sudo apt-get install -y packer terraform
+
+# GitHub CLI, from GitHub's own repository (Ubuntu's gh is much older)
+keyring=/etc/apt/keyrings/githubcli-archive-keyring.gpg
+if [ ! -f "$keyring" ]; then
+    sudo mkdir -p -m 755 /etc/apt/keyrings
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee "$keyring" >/dev/null
+    sudo chmod go+r "$keyring"
+fi
+echo "deb [arch=$(dpkg --print-architecture) signed-by=$keyring] https://cli.github.com/packages stable main" \
+    | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+sudo apt-get update
+sudo apt-get install -y gh
+{{ end -}}
