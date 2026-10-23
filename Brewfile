@@ -35,6 +35,9 @@ cask "docker-desktop"
 brew "docker"
 brew "docker-buildx"
 
+# --- Virtual machines ---
+cask "multipass"
+
 # --- Azure ---
 cask "azure-cli"
 
