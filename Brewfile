@@ -35,11 +35,16 @@ cask "docker-desktop"
 brew "docker"
 brew "docker-buildx"
 
+<<<<<<< Updated upstream
 # --- Virtual machines ---
 cask "multipass"
 
 # --- Azure ---
+=======
+# --- Azure and AWS ---
+>>>>>>> Stashed changes
 cask "azure-cli"
+brew "awscli"
 
 # --- Languages ---
 brew "python"
