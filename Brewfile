@@ -40,6 +40,7 @@ cask "multipass"
 
 # --- Azure and AWS ---
 cask "azure-cli"
+brew "powershell"
 brew "awscli"
 
 # --- Languages ---
