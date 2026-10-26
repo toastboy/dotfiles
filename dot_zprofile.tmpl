@@ -1,0 +1,20 @@
+{{- if eq .chezmoi.os "darwin" -}}
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:$HOME/.docker/bin"
+# End of Docker Desktop section.
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Login shells that never read .zshrc (e.g. VS Code tasks, run as `zsh -l -c`)
+# still need node and npm on PATH. The lazy nvm stubs in .zshrc are zsh
+# functions, so they are no use to those shells or to any `sh -c` below them.
+_nvm_node_bin() {
+  setopt local_options null_glob numeric_glob_sort
+  local -a versions=("$HOME"/.nvm/versions/node/v*(/))
+  (( $#versions )) && print -r -- "${versions[-1]}/bin"
+}
+_node_bin="$(_nvm_node_bin)"
+[[ -n $_node_bin ]] && export PATH="$_node_bin:$PATH"
+unset _node_bin
+unfunction _nvm_node_bin
+{{- end }}
